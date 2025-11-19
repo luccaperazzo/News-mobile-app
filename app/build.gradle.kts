@@ -1,3 +1,4 @@
+import java.util.Base64
 import java.util.Properties
 
 plugins {
@@ -11,7 +12,11 @@ if (localPropertiesFile.exists()) {
     localProperties.load(localPropertiesFile.inputStream())
 }
 
-val newsApiKey = localProperties.getProperty("news_api_key") ?: ""
+val newsApiKeyBase64 = localProperties.getProperty("news_api_key_base64") ?: ""
+val newsApiKey = if (newsApiKeyBase64.isNotEmpty())
+    String(Base64.getDecoder().decode(newsApiKeyBase64))
+else
+    ""
 
 android {
     namespace = "com.example.newsmobileapp"
