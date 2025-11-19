@@ -25,7 +25,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        // CORRECCIÓN APLICADA AQUÍ:
         buildConfigField("String", "NEWS_API_KEY", "\"$newsApiKey\"")
     }
 
@@ -61,4 +60,12 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    // MVVM Dependencies
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("androidx.activity:activity-ktx:1.9.0")
+
+    // Splash Screen Dependency
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }

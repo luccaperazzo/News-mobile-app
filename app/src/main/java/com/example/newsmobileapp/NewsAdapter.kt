@@ -43,8 +43,12 @@ class NewsAdapter(private val articles: List<Article>, private val listener: (Ar
 
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
             val outputFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-            val date = inputFormat.parse(article.publishedAt)
-            articlePublishedDate.text = date?.let { outputFormat.format(it) }
+            try {
+                val date = inputFormat.parse(article.publishedAt)
+                articlePublishedDate.text = date?.let { outputFormat.format(it) }
+            } catch (e: Exception) {
+                articlePublishedDate.text = ""
+            }
 
             Glide.with(itemView.context)
                 .load(article.urlToImage)
