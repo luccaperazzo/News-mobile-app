@@ -27,14 +27,24 @@ class MainActivity : AppCompatActivity() {
 
         progressBar = findViewById(R.id.progressBar)
         errorTextView = findViewById(R.id.errorTextView)
+        
+        // 1. Configurar todo, incluyendo un adaptador vacío.
         setupRecyclerView()
 
+        // 2. Ir a buscar las noticias.
         fetchNews()
     }
 
     private fun setupRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        // Crear el adaptador UNA SOLA VEZ con una lista vacía y el listener.
+        newsAdapter = NewsAdapter(mutableListOf()) { article ->
+            val intent = Intent(this@MainActivity, ArticleActivity::class.java)
+            intent.putExtra(ArticleActivity.EXTRA_URL, article.url)
+            startActivity(intent)
+        }
+        recyclerView.adapter = newsAdapter
     }
 
     private fun fetchNews() {
@@ -61,12 +71,8 @@ class MainActivity : AppCompatActivity() {
         recyclerView.visibility = View.VISIBLE
         errorTextView.visibility = View.GONE
 
-        newsAdapter = NewsAdapter(articles) { article ->
-            val intent = Intent(this@MainActivity, ArticleActivity::class.java)
-            intent.putExtra(ArticleActivity.EXTRA_URL, article.url)
-            startActivity(intent)
-        }
-        recyclerView.adapter = newsAdapter
+        // En lugar de crear un adaptador nuevo, actualizamos el existente.
+        newsAdapter.updateArticles(articles)
     }
 
     private fun showError(message: String) {

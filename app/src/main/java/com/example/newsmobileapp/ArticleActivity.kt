@@ -3,6 +3,7 @@ package com.example.newsmobileapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebView
+import android.webkit.WebViewClient
 
 class ArticleActivity : AppCompatActivity() {
 
@@ -14,10 +15,12 @@ class ArticleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_article)
 
-        val url = intent.getStringExtra(EXTRA_URL)
         val webView: WebView = findViewById(R.id.webView)
-        if (url != null) {
-            webView.loadUrl(url)
+        webView.webViewClient = WebViewClient() // Evita que se abra el navegador externo
+
+        // Forma segura de manejar la URL
+        intent.getStringExtra(EXTRA_URL)?.let {
+            webView.loadUrl(it)
         }
     }
 }

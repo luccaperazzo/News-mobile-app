@@ -1,5 +1,6 @@
 package com.example.newsmobileapp
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,7 @@ import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NewsAdapter(private val articles: List<Article>, private val listener: (Article) -> Unit) :
+class NewsAdapter(private val articles: MutableList<Article>, private val listener: (Article) -> Unit) :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,6 +27,13 @@ class NewsAdapter(private val articles: List<Article>, private val listener: (Ar
     }
 
     override fun getItemCount() = articles.size
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateArticles(newArticles: List<Article>) {
+        articles.clear()
+        articles.addAll(newArticles)
+        notifyDataSetChanged()
+    }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val articleImage: ImageView = itemView.findViewById(R.id.article_image)
